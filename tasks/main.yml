@@ -1,5 +1,9 @@
 ---
-  - name: Kubernetes | Disable SELinux
+  - name: Kubernetes | Disable SELINUX
+    hosts: all
+    shell: setenforce 0
+
+  - name: Kubernetes | Update SELinux (Disable on Boot)
     hosts: all
     replace:
       path: /etc/selinux/config
