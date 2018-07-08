@@ -1,0 +1,15 @@
+  - name: Kubernetes | Make Certs Dir
+    file:
+      path: /etc/kubernetes/pki
+      state: directory
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: Kubernetes | Extract Certs
+    unarchive:
+      src: ~/certs.tar.gz
+      dest: /etc/kubernetes/pki
+
+  - name: Kubernetes | Move Config
+    command: mv /etc/kubernetes/pki/admin.conf ~/.kube/config

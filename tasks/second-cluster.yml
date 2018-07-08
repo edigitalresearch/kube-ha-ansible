@@ -3,7 +3,7 @@
       path: /etc/kubernetes/kubeadm-config-second.yml
     register: cluster_check
 
-  - name: Kubernetes | Write Root Cluster Config
+  - name: Kubernetes | Write Second Cluster Config
     template:
       src: kubeadm-config-second.yml.j2
       dest: /etc/kubernetes/kubeadm-config-second.yml
@@ -11,3 +11,8 @@
       group: root
       mode: 0644
     when: cluster_check.stat.exists == False
+
+  - name: Kubernetes | Export Certs
+    include_tasks: certs.yml
+    when: cluster_check.stat.exists == False
+    

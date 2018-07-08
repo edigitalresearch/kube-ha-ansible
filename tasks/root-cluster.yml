@@ -62,3 +62,4 @@
     fetch:
       src: ~/certs.tar.gz
       dest: ./certs.tar.gz
+      flat: yes
