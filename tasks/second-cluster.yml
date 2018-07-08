@@ -15,4 +15,43 @@
   - name: Kubernetes | Export Certs
     include_tasks: certs.yml
     when: cluster_check.stat.exists == False
-    
+
+  - name: Kubernetes | Bootstrap Certs
+    command: kubeadm alpha phase certs all --config /etc/kubernetes/kubeadm-config-second.yml
+    register: bootstrap_certs
+    when: cluster_check.stat.exists == False
+
+  - name: Kubernetes | Bootstrap Kubelet Config
+    command: kubeadm alpha phase kubelet config write-to-disk --config /etc/kubernetes/kubeadm-config-second.yml
+    register: bootstrap_kubelet_config
+    when: cluster_check.stat.exists == False
+
+  - name: Kubernetes | Bootstrap Environment
+    command: kubeadm alpha phase kubelet write-env-file --config /etc/kubernetes/kubeadm-config-second.yml
+    register: bootstrap_environment
+    when: cluster_check.stat.exists == False
+
+  - name: Kubernetes | Bootstrap Kubeconfig
+    command: kubeadm alpha phase kubeconfig kubelet --config /etc/kubernetes/kubeadm-config-second.yml
+    register: bootstrap_kubeconfig
+    when: cluster_check.stat.exists == False
+
+  - name: Kubernetes | Second Control Plane
+    debug:
+      msg: "{{ bootstrap_certs }}"
+    when: cluster_check.stat.exists == False
+
+  - name: Kubernetes | Second Control Plane
+    debug:
+      msg: "{{ bootstrap_kubelet_config }}"
+    when: cluster_check.stat.exists == False
+
+  - name: Kubernetes | Second Control Plane
+    debug:
+      msg: "{{ bootstrap_environment }}"
+    when: cluster_check.stat.exists == False
+
+  - name: Kubernetes | Second Control Plane
+    debug:
+      msg: "{{ bootstrap_kubeconfig }}"
+    when: cluster_check.stat.exists == False
