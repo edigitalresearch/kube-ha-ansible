@@ -44,11 +44,11 @@
 
 
   - name: Kubernetes | Copy Certs
-    command: cp ~/.kube/config /etc/kubernetes/pki/ca.crt /etc/kubernetes/pki/ca.key /etc/kubernetes/pki/sa.key /etc/kubernetes/pki/sa.pub /etc/kubernetes/pki/front-proxy-ca.crt /etc/kubernetes/pki/front-proxy-ca.key ~/certs
+    command: cp ~/.kube/config /etc/kubernetes/pki/ca.crt /etc/kubernetes/pki/ca.key /etc/kubernetes/pki/sa.key /etc/kubernetes/pki/sa.pub /etc/kubernetes/pki/front-proxy-ca.crt /etc/kubernetes/pki/front-proxy-ca.key ~/pki
     when: cluster_check.stat.exists == False
 
   - name: Kubernetes | Copy ETCD Certs
-    command: cp /etc/kubernetes/pki/etcd/ca.crt /etc/kubernetes/pki/etcd/ca.key ~/certs/etcd
+    command: cp /etc/kubernetes/pki/etcd/ca.crt /etc/kubernetes/pki/etcd/ca.key ~/pki/etcd
     when: cluster_check.stat.exists == False
 
   - name: Kubernetes | Create Certs Archive
