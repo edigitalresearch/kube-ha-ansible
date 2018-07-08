@@ -1,17 +1,14 @@
 ---
   - name: Kubernetes | Disable SELINUX
-    hosts: all
     shell: setenforce 0
 
   - name: Kubernetes | Update SELinux (Disable on Boot)
-    hosts: all
     replace:
       path: /etc/selinux/config
       regexp: 'SELINUX=enforcing'
       replace: 'SELINUX=disabled'
 
   - name: Kubernetes | Add Repos
-    hosts: all
     yum_repository:
       name: Kubernetes
       description: Kubernetes Repos
@@ -20,14 +17,12 @@
       repo_gpgcheck: no
 
   - name: Kubernetes | Install Packages
-    hosts: all
     yum:
       name: "{{ item }}"
       state: present
     with_items: "{{ kubernetes.packages }}"
 
   - name: Kubernetes | Enable Services
-    hosts: all
     systemd:
       state: started
       enabled: True
@@ -37,10 +32,10 @@
       - kubelet
 
   - name: Kubernetes | Write Root Cluster Config
-    hosts: root_cluster
     template:
       src: kubeadm-config-root.yml.j2
       dest: /etc/kubernetes/kubeadm-config-root.yml
       owner: root
       group: root
       mode: 0644
+    when: "'root_cluster' in group_names"

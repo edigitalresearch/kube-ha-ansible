@@ -8,17 +8,17 @@ api:
 etcd:
   local:
     extraArgs:
-      listen-client-urls: "https://127.0.0.1:2379,https://{{ hostvars[inventory_host]['ansible_eth1']['ipv4']['address'] }}:2379"
-      advertise-client-urls: "https://{{ hostvars[inventory_host]['ansible_eth1']['ipv4']['address'] }}:2379"
-      listen-peer-urls: "https://{{ hostvars[inventory_host]['ansible_eth1']['ipv4']['address'] }}:2380"
-      initial-advertise-peer-urls: "https://{{ hostvars[inventory_host]['ansible_eth1']['ipv4']['address'] }}:2380"
-      initial-cluster: "{{ ansible_hostname }}=https://{{ hostvars[inventory_host]['ansible_eth1']['ipv4']['address'] }}:2380"
+      listen-client-urls: "https://127.0.0.1:2379,https://{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}:2379"
+      advertise-client-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}:2379"
+      listen-peer-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}:2380"
+      initial-advertise-peer-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}:2380"
+      initial-cluster: "{{ ansible_hostname }}=https://{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}:2380"
     serverCertSANs:
       - {{ ansible_hostname }}
-      - {{ hostvars[inventory_host]['ansible_eth1']['ipv4']['address'] }}
+      - {{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}
     peerCertSANs:
       - {{ ansible_hostname }}
-      - {{ hostvars[inventory_host]['ansible_eth1']['ipv4']['address'] }}
+      - {{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}
 networking:
     # This CIDR is a Calico default. Substitute or remove for your CNI provider.
     podSubnet: "192.168.0.0/16"
