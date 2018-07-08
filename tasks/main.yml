@@ -41,5 +41,5 @@
     when: "'root_cluster' in group_names"
 
   - name: Kubernetes | Deploy Root Control Plane
-    command: kubeadm init --config /etc/kubernetes/kubeadm-config-root.yaml
+    command: kubeadm init --config /etc/kubernetes/kubeadm-config-root.yml
     when: "'root_cluster' in group_names"
