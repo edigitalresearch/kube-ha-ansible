@@ -11,8 +11,8 @@
       src: ./certs.tar.gz
       dest: ~/
 
-  - name: Kubernetes | Move Certs
-    command: mv ~/certs/certs /etc/kubernetes/pki
-
-  - name: Kubernetes | Move Config
-    command: mv /etc/kubernetes/pki/config ~/.kube/config
+  # - name: Kubernetes | Move Certs
+  #   command: mv ~/certs/certs /etc/kubernetes/pki
+  #
+  # - name: Kubernetes | Move Config
+  #   command: mv /etc/kubernetes/pki/config ~/.kube/config
