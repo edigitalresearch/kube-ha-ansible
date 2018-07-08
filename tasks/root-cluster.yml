@@ -44,7 +44,7 @@
 
 
   - name: Kubernetes | Copy Certs
-    command: cp /etc/kubernetes/pki/ca.crt /etc/kubernetes/pki/ca.key /etc/kubernetes/pki/sa.key /etc/kubernetes/pki/sa.pub /etc/kubernetes/pki/front-proxy-ca.crt /etc/kubernetes/pki/front-proxy-ca.key ~/certs
+    command: cp /etc/kubernetes/admin.conf /etc/kubernetes/pki/ca.crt /etc/kubernetes/pki/ca.key /etc/kubernetes/pki/sa.key /etc/kubernetes/pki/sa.pub /etc/kubernetes/pki/front-proxy-ca.crt /etc/kubernetes/pki/front-proxy-ca.key ~/certs
     when: cluster_check.stat.exists == False
 
   - name: Kubernetes | Copy ETCD Certs
@@ -57,3 +57,8 @@
       path: ~/certs
       dest: ~/certs.tar.gz
     when: cluster_check.stat.exists == False
+
+  - name: Kubernetes | Download Certs Archive
+    fetch:
+      src: ~/certs.tar.gz
+      dest: ./certs.tar.gz
