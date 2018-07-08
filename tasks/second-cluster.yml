@@ -1,0 +1,13 @@
+  - name: Kubernetes | Check Second Cluster
+    stat:
+      path: /etc/kubernetes/kubeadm-config-second.yml
+    register: cluster_check
+
+  - name: Kubernetes | Write Root Cluster Config
+    template:
+      src: kubeadm-config-second.yml.j2
+      dest: /etc/kubernetes/kubeadm-config-second.yml
+      owner: root
+      group: root
+      mode: 0644
+    when: cluster_check.stat.exists == False

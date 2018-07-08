@@ -1,7 +1,11 @@
 ---
   - name: Kubernetes | Common Tasks
     include_tasks: common.yml
-    
+
   - name: Kubernetes | Root Cluster
     include_tasks: root-cluster.yml
     when: "'root_cluster' in group_names"
+
+  - name: Kubernetes | Second Cluster
+    include_tasks: second-cluster.yml
+    when: "'second_cluster' in group_names"
