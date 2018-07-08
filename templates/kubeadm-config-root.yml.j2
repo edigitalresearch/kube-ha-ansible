@@ -20,5 +20,4 @@ etcd:
       - {{ ansible_hostname }}
       - {{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}
 networking:
-    # This CIDR is a Calico default. Substitute or remove for your CNI provider.
-    podSubnet: "192.168.0.0/16"
+    podSubnet: "10.1.0.0/16"

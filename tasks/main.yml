@@ -39,3 +39,7 @@
       group: root
       mode: 0644
     when: "'root_cluster' in group_names"
+
+  - name: Kubernetes | Deploy Root Control Plane
+    command: kubeadm init --config /etc/kubernetes/kubeadm-config-root.yaml
+    when: "'root_cluster' in group_names"
