@@ -3,8 +3,8 @@
     hosts: all
     replace:
       path: /etc/selinux/config
-      regexp: "permissive"
-      replace: "disabled"
+      regexp: 'permissive'
+      replace: 'disabled'
 
   - name: Kubernetes | Add Repos
     hosts: all
