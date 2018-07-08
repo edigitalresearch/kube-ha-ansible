@@ -1,0 +1,33 @@
+---
+  - name: Kubernetes | Disable SELinux
+    hosts: all
+    replace:
+      path: /etc/sysconfig/selinux
+      regexp: SELINUX=permissive
+      replace: SELINUX=disabled
+
+  - name: Kubernetes | Add Repos
+    hosts: all
+    yum_repository:
+      name: Kubernetes
+      description: Kubernetes Repos
+      baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+      gpgcheck: no
+      repo_gpgcheck: no
+
+  - name: Kubernetes | Install Packages
+    hosts: all
+    yum:
+      name: "{{ item }}"
+      state: present
+    with_items: "{{ kubernetes.packages }}"
+
+  - name: Kubernetes | Enable Services
+    hosts: all
+    systemd:
+      state: started
+      enabled: True
+      name: "{{ item }}"
+    with_items:
+      - docker
+      - kubelet
