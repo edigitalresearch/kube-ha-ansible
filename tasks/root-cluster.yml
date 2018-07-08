@@ -54,12 +54,12 @@
   - name: Kubernetes | Create Certs Archive
     format: tar
     archive:
-      path: ~/certs
-      dest: ~/certs.tar.gz
+      path: ~/pki
+      dest: ~/pki.tar.gz
     when: cluster_check.stat.exists == False
 
   - name: Kubernetes | Download Certs Archive
     fetch:
-      src: ~/certs.tar.gz
-      dest: ./certs.tar.gz
+      src: ~/pki.tar.gz
+      dest: ./pki.tar.gz
       flat: yes
