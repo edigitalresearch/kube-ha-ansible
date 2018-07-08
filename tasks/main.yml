@@ -2,9 +2,9 @@
   - name: Kubernetes | Disable SELinux
     hosts: all
     replace:
-      path: /etc/sysconfig/selinux
-      regexp: SELINUX=permissive
-      replace: SELINUX=disabled
+      path: /etc/selinux/config
+      regexp: "SELINUX=permissive"
+      replace: "SELINUX=disabled"
 
   - name: Kubernetes | Add Repos
     hosts: all
