@@ -35,3 +35,12 @@
     with_items:
       - docker
       - kubelet
+
+  - name: Kubernetes | Write Root Cluster Config
+    hosts: root_cluster
+    template:
+      src: kubeadm-config-root.yml.j2
+      dest: /etc/kubernetes/kubeadm-config-root.yml
+      owner: root
+      group: root
+      mode: 0644
