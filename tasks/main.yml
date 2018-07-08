@@ -31,6 +31,13 @@
       - docker
       - kubelet
 
+  - name: Kubernetes | Create Kube Directory
+    file:
+      path: ~/.kube
+      state: directory
+      owner: "{{ ansible_user_id }}"
+      group: "{{ ansible_user_id }}"
+
   - name: Kubernetes | Write Root Cluster Config
     template:
       src: kubeadm-config-root.yml.j2
@@ -42,4 +49,14 @@
 
   - name: Kubernetes | Deploy Root Control Plane
     command: kubeadm init --config /etc/kubernetes/kubeadm-config-root.yml
+    when: "'root_cluster' in group_names"
+    register: root_cluster_deploy
+
+  - name: Kubernetes | Root Control Plane
+    debug:
+      msg: "{{ root_cluster_deploy }}"
+    when: "'root_cluster' in group_names"
+
+  - name: Kubernetes | Copy Config
+    command: mv /etc/kubernetes/admin.conf ~/.kube/config
     when: "'root_cluster' in group_names"
