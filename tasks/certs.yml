@@ -8,7 +8,7 @@
 
   - name: Kubernetes | Extract Certs
     unarchive:
-      src: ~/certs.tar.gz
+      src: ./certs.tar.gz
       dest: /etc/kubernetes/pki
 
   - name: Kubernetes | Move Config
