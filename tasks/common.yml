@@ -1,0 +1,38 @@
+- name: Kubernetes | Disable SELINUX
+  shell: setenforce 0
+
+- name: Kubernetes | Update SELinux (Disable on Boot)
+  replace:
+    path: /etc/selinux/config
+    regexp: 'SELINUX=enforcing'
+    replace: 'SELINUX=disabled'
+
+- name: Kubernetes | Add Repos
+  yum_repository:
+    name: Kubernetes
+    description: Kubernetes Repos
+    baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+    gpgcheck: no
+    repo_gpgcheck: no
+
+- name: Kubernetes | Install Packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ kubernetes.packages }}"
+
+- name: Kubernetes | Enable Services
+  systemd:
+    state: started
+    enabled: True
+    name: "{{ item }}"
+  with_items:
+    - docker
+    - kubelet
+
+- name: Kubernetes | Create Kube Directory
+  file:
+    path: ~/.kube
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"

@@ -1,62 +1,7 @@
 ---
-  - name: Kubernetes | Disable SELINUX
-    shell: setenforce 0
-
-  - name: Kubernetes | Update SELinux (Disable on Boot)
-    replace:
-      path: /etc/selinux/config
-      regexp: 'SELINUX=enforcing'
-      replace: 'SELINUX=disabled'
-
-  - name: Kubernetes | Add Repos
-    yum_repository:
-      name: Kubernetes
-      description: Kubernetes Repos
-      baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
-      gpgcheck: no
-      repo_gpgcheck: no
-
-  - name: Kubernetes | Install Packages
-    yum:
-      name: "{{ item }}"
-      state: present
-    with_items: "{{ kubernetes.packages }}"
-
-  - name: Kubernetes | Enable Services
-    systemd:
-      state: started
-      enabled: True
-      name: "{{ item }}"
-    with_items:
-      - docker
-      - kubelet
-
-  - name: Kubernetes | Create Kube Directory
-    file:
-      path: ~/.kube
-      state: directory
-      owner: "{{ ansible_user_id }}"
-      group: "{{ ansible_user_id }}"
-
-  - name: Kubernetes | Write Root Cluster Config
-    template:
-      src: kubeadm-config-root.yml.j2
-      dest: /etc/kubernetes/kubeadm-config-root.yml
-      owner: root
-      group: root
-      mode: 0644
-    when: "'root_cluster' in group_names"
-
-  - name: Kubernetes | Deploy Root Control Plane
-    command: kubeadm init --config /etc/kubernetes/kubeadm-config-root.yml
-    when: "'root_cluster' in group_names"
-    register: root_cluster_deploy
-
-  - name: Kubernetes | Root Control Plane
-    debug:
-      msg: "{{ root_cluster_deploy }}"
-    when: "'root_cluster' in group_names"
-
-  - name: Kubernetes | Copy Config
-    command: mv /etc/kubernetes/admin.conf ~/.kube/config
+  - name: Kubernetes | Common Tasks
+    include_tasks: common.yml
+    
+  - name: Kubernetes | Root Cluster
+    include_tasks: root-cluster.yml
     when: "'root_cluster' in group_names"
