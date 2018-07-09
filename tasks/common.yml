@@ -38,4 +38,6 @@
     group: "{{ ansible_user_id }}"
 
 - name: Kubernetes | Set IPTables
-  command: echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
+  lineinfile:
+    path: /proc/sys/net/bridge/bridge-nf-call-iptables
+    line: "1"
