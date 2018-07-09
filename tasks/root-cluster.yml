@@ -28,7 +28,7 @@
 
   - name: Kubernetes | Create Certs Directory
     file:
-      path: ~/certs
+      path: ~/pki
       state: directory
       owner: "{{ ansible_user_id }}"
       group: "{{ ansible_user_id }}"
@@ -36,7 +36,7 @@
 
   - name: Kubernetes | Create ETCD Directory
     file:
-      path: ~/certs/etcd
+      path: ~/pki/etcd
       state: directory
       owner: "{{ ansible_user_id }}"
       group: "{{ ansible_user_id }}"
