@@ -13,6 +13,10 @@
       - "'root_cluster' in group_names"
       - root_check.stat.exists == False
 
+  - name: Kubernetes | Wait for Cluster (5 Minutes)
+    pause:
+      minutes: 5
+
   - name: Kubernetes | Check Second Cluster
     stat:
       path: /etc/kubernetes/kubeadm-config-second.yml
