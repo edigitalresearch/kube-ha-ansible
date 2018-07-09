@@ -16,92 +16,56 @@
     include_tasks: certs.yml
     when: cluster_check.stat.exists == False
 
-  - name: Kubernetes | Bootstrap Certs
-    command: kubeadm alpha phase certs all --config /etc/kubernetes/kubeadm-config-second.yml
-    register: bootstrap_certs
+  - name: Kubernetes | Create Stacked Master
+    script: "stacked-master.sh /etc/kubernetes/kubeadm-config-second.yml { hostvars[ groups['root_cluster'][0] ]['ansible_hostname'] }} {{ hostvars[ groups['root_cluster'][0] ]['ansible_eth1']['ipv4']['address'] }} {{ inventory_hostname }} {{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}"
+    register: stacked_master
     when: cluster_check.stat.exists == False
 
-  - name: Kubernetes | Bootstrap Kubelet Config
-    command: kubeadm alpha phase kubelet config write-to-disk --config /etc/kubernetes/kubeadm-config-second.yml
-    register: bootstrap_kubelet_config
-    when: cluster_check.stat.exists == False
-
-  - name: Kubernetes | Bootstrap Environment
-    command: kubeadm alpha phase kubelet write-env-file --config /etc/kubernetes/kubeadm-config-second.yml
-    register: bootstrap_environment
-    when: cluster_check.stat.exists == False
-
-  - name: Kubernetes | Bootstrap Kubeconfig
-    command: kubeadm alpha phase kubeconfig kubelet --config /etc/kubernetes/kubeadm-config-second.yml
-    register: bootstrap_kubeconfig
-    when: cluster_check.stat.exists == False
-
-  - name: Kubernetes | Bootstrap ETCD
-    command: "kubectl exec -n kube-system etcd-{{ hostvars[ groups['root_cluster'][0] ]['ansible_hostname'] }} -- etcdctl --ca-file /etc/kubernetes/pki/etcd/ca.crt --cert-file /etc/kubernetes/pki/etcd/peer.crt --key-file /etc/kubernetes/pki/etcd/peer.key --endpoints=https://{{ hostvars[ groups['root_cluster'][0] ]['ansible_eth1']['ipv4']['address'] }}:2379 member add {{ inventory_hostname }} https://{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}:2380"
-    register: bootstrap_etcd
-    when: cluster_check.stat.exists == False
-
-  - name: Kubernetes | Join ETCD
-    command: kubeadm alpha phase etcd local --config /etc/kubernetes/kubeadm-config-second.yml
-    register: join_etcd
-    when: cluster_check.stat.exists == False
-
-  - name: Kubernetes | Deploy Kubeconfig
-    command: kubeadm alpha phase kubeconfig all --config /etc/kubernetes/kubeadm-config-second.yml
-    register: deploy_kubeconfig
-    when: cluster_check.stat.exists == False
-
-  - name: Kubernetes | Deploy Controlplane
-    command: kubeadm alpha phase controlplane all --config /etc/kubernetes/kubeadm-config-second.yml
-    register: deploy_controlplane
-    when: cluster_check.stat.exists == False
-
-  - name: Kubernetes | Mark Master
-    command: kubeadm alpha phase mark-master --config /etc/kubernetes/kubeadm-config-second.yml
-    register: mark_master
-    when: cluster_check.stat.exists == False
-
-  - name: Kubernetes | Second Control Plane
+  - name: Kubernetes | Control Plane
     debug:
-      msg: "{{ bootstrap_certs }}"
-    when: cluster_check.stat.exists == False
+      msg: "{{ stacked_master }}"
 
-  - name: Kubernetes | Second Control Plane
-    debug:
-      msg: "{{ bootstrap_kubelet_config }}"
-    when: cluster_check.stat.exists == False
-
-  - name: Kubernetes | Second Control Plane
-    debug:
-      msg: "{{ bootstrap_environment }}"
-    when: cluster_check.stat.exists == False
-
-  - name: Kubernetes | Second Control Plane
-    debug:
-      msg: "{{ bootstrap_kubeconfig }}"
-    when: cluster_check.stat.exists == False
-
-  - name: Kubernetes | Second Control Plane
-    debug:
-      msg: "{{ bootstrap_etcd }}"
-    when: cluster_check.stat.exists == False
-
-  - name: Kubernetes | Second Control Plane
-    debug:
-      msg: "{{ join_etcd }}"
-    when: cluster_check.stat.exists == False
-
-  - name: Kubernetes | Second Control Plane
-    debug:
-      msg: "{{ deploy_kubeconfig }}"
-    when: cluster_check.stat.exists == False
-
-  - name: Kubernetes | Second Control Plane
-    debug:
-      msg: "{{ deploy_controlplane }}"
-    when: cluster_check.stat.exists == False
-
-  - name: Kubernetes | Second Control Plane
-    debug:
-      msg: "{{ mark_master }}"
-    when: cluster_check.stat.exists == False
+  # - name: Kubernetes | Bootstrap Certs
+  #   command: kubeadm alpha phase certs all --config /etc/kubernetes/kubeadm-config-second.yml
+  #   register: bootstrap_certs
+  #   when: cluster_check.stat.exists == False
+  #
+  # - name: Kubernetes | Bootstrap Kubelet Config
+  #   command: kubeadm alpha phase kubelet config write-to-disk --config /etc/kubernetes/kubeadm-config-second.yml
+  #   register: bootstrap_kubelet_config
+  #   when: cluster_check.stat.exists == False
+  #
+  # - name: Kubernetes | Bootstrap Environment
+  #   command: kubeadm alpha phase kubelet write-env-file --config /etc/kubernetes/kubeadm-config-second.yml
+  #   register: bootstrap_environment
+  #   when: cluster_check.stat.exists == False
+  #
+  # - name: Kubernetes | Bootstrap Kubeconfig
+  #   command: kubeadm alpha phase kubeconfig kubelet --config /etc/kubernetes/kubeadm-config-second.yml
+  #   register: bootstrap_kubeconfig
+  #   when: cluster_check.stat.exists == False
+  #
+  # - name: Kubernetes | Bootstrap ETCD
+  #   command: "kubectl exec -n kube-system etcd-{{ hostvars[ groups['root_cluster'][0] ]['ansible_hostname'] }} -- etcdctl --ca-file /etc/kubernetes/pki/etcd/ca.crt --cert-file /etc/kubernetes/pki/etcd/peer.crt --key-file /etc/kubernetes/pki/etcd/peer.key --endpoints=https://{{ hostvars[ groups['root_cluster'][0] ]['ansible_eth1']['ipv4']['address'] }}:2379 member add {{ inventory_hostname }} https://{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}:2380"
+  #   register: bootstrap_etcd
+  #   when: cluster_check.stat.exists == False
+  #
+  # - name: Kubernetes | Join ETCD
+  #   command: kubeadm alpha phase etcd local --config /etc/kubernetes/kubeadm-config-second.yml
+  #   register: join_etcd
+  #   when: cluster_check.stat.exists == False
+  #
+  # - name: Kubernetes | Deploy Kubeconfig
+  #   command: kubeadm alpha phase kubeconfig all --config /etc/kubernetes/kubeadm-config-second.yml
+  #   register: deploy_kubeconfig
+  #   when: cluster_check.stat.exists == False
+  #
+  # - name: Kubernetes | Deploy Controlplane
+  #   command: kubeadm alpha phase controlplane all --config /etc/kubernetes/kubeadm-config-second.yml
+  #   register: deploy_controlplane
+  #   when: cluster_check.stat.exists == False
+  #
+  # - name: Kubernetes | Mark Master
+  #   command: kubeadm alpha phase mark-master --config /etc/kubernetes/kubeadm-config-second.yml
+  #   register: mark_master
+  #   when: cluster_check.stat.exists == False
