@@ -1,8 +1,3 @@
-  - name: Kubernetes | Check Root Cluster
-    stat:
-      path: /etc/kubernetes/kubeadm-config-root.yml
-    register: cluster_check
-
   - name: Kubernetes | Write Root Cluster Config
     template:
       src: kubeadm-config-root.yml.j2
@@ -10,21 +5,17 @@
       owner: root
       group: root
       mode: 0644
-    when: cluster_check.stat.exists == False
 
   - name: Kubernetes | Deploy Root Control Plane
     command: kubeadm init --config /etc/kubernetes/kubeadm-config-root.yml
     register: root_cluster_deploy
-    when: cluster_check.stat.exists == False
 
   - name: Kubernetes | Root Control Plane
     debug:
       msg: "{{ root_cluster_deploy }}"
-    when: cluster_check.stat.exists == False
 
   - name: Kubernetes | Copy Config
     command: mv /etc/kubernetes/admin.conf ~/.kube/config
-    when: cluster_check.stat.exists == False
 
   - name: Kubernetes | Create Certs Directory
     file:
@@ -32,7 +23,6 @@
       state: directory
       owner: "{{ ansible_user_id }}"
       group: "{{ ansible_user_id }}"
-    when: cluster_check.stat.exists == False
 
   - name: Kubernetes | Create ETCD Directory
     file:
@@ -40,22 +30,18 @@
       state: directory
       owner: "{{ ansible_user_id }}"
       group: "{{ ansible_user_id }}"
-    when: cluster_check.stat.exists == False
 
   - name: Kubernetes | Copy Certs
     command: cp ~/.kube/config /etc/kubernetes/pki/ca.crt /etc/kubernetes/pki/ca.key /etc/kubernetes/pki/sa.key /etc/kubernetes/pki/sa.pub /etc/kubernetes/pki/front-proxy-ca.crt /etc/kubernetes/pki/front-proxy-ca.key ~/pki
-    when: cluster_check.stat.exists == False
 
   - name: Kubernetes | Copy ETCD Certs
     command: cp /etc/kubernetes/pki/etcd/ca.crt /etc/kubernetes/pki/etcd/ca.key ~/pki/etcd
-    when: cluster_check.stat.exists == False
 
   - name: Kubernetes | Create Certs Archive
     format: tar
     archive:
       path: ~/pki
       dest: ~/pki.tar.gz
-    when: cluster_check.stat.exists == False
 
   - name: Kubernetes | Download Certs Archive
     fetch:
