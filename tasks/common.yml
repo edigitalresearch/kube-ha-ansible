@@ -38,6 +38,9 @@
     group: "{{ ansible_user_id }}"
 
 - name: Kubernetes | Set IPTables
-  lineinfile:
-    path: /proc/sys/net/bridge/bridge-nf-call-iptables
-    line: "1"
+  sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
