@@ -16,6 +16,7 @@
   - name: Kubernetes | Wait for Cluster (3 Minutes)
     pause:
       minutes: 3
+    when: root_check.stat.exists == False
 
   - name: Kubernetes | Check Second Cluster
     stat:
