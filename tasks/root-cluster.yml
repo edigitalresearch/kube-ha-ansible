@@ -1,3 +1,4 @@
+  # Create the intial cluster config
   - name: Kubernetes | Write Root Cluster Config
     template:
       src: kubeadm-config-root.yml.j2
@@ -6,17 +7,16 @@
       group: root
       mode: 0644
 
+  # Deploy the root cluster
   - name: Kubernetes | Deploy Root Control Plane
     command: kubeadm init --config /etc/kubernetes/kubeadm-config-root.yml
     register: root_cluster_deploy
 
-  - name: Kubernetes | Root Control Plane
-    debug:
-      msg: "{{ root_cluster_deploy }}"
-
+  # Copy the generated kubectl config
   - name: Kubernetes | Copy Config
     command: mv /etc/kubernetes/admin.conf ~/.kube/config
 
+  # Create and exports
   - name: Kubernetes | Create Certs Directory
     file:
       path: ~/pki
@@ -42,7 +42,8 @@
     archive:
       path: ~/pki
       dest: ~/pki.tar.gz
-
+      
+  # Download Certs for distribution
   - name: Kubernetes | Download Certs Archive
     fetch:
       src: ~/pki.tar.gz
