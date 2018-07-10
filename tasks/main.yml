@@ -1,35 +1,42 @@
 ---
+  # Install core K8s components on all nodes
   - name: Kubernetes | Common Tasks
     include_tasks: common.yml
 
+  # Check if the root cluster has already been configured
   - name: Kubernetes | Check Root Cluster
     stat:
       path: /etc/kubernetes/kubeadm-config-root.yml
     register: cluster_check
 
+  # Deploy the root cluster if not configured
   - name: Kubernetes | Root Cluster
     include_tasks: root-cluster.yml
     when:
       - "'root_cluster' in group_names"
       - cluster_check.stat.exists == False
 
+  # Wait for 1 minute after cluster creation
   - name: Kubernetes | Wait for Cluster (1 Minute)
     pause:
       minutes: 1
     when: cluster_check.stat.exists == False
 
+  # Check if second cluster has been configured
   - name: Kubernetes | Check Second Cluster
     stat:
       path: /etc/kubernetes/kubeadm-config-second.yml
     register: cluster_check
     when: "'second_cluster' in group_names"
 
+  # Deploy second cluster if not configured
   - name: Kubernetes | Second Cluster
     include_tasks: second-cluster.yml
     when:
       - "'second_cluster' in group_names"
       - cluster_check.stat.exists == False
 
+  # Wait for 1 minute after cluster creation
   - name: Kubernetes | Wait for Cluster (1 Minute)
     pause:
       minutes: 1
@@ -41,15 +48,24 @@
     register: cluster_check
     when: "'third_cluster' in group_names"
 
+  # Check if third cluster has been configured
   - name: Kubernetes | Third Cluster
     include_tasks: third-cluster.yml
     when:
       - "'third_cluster' in group_names"
       - cluster_check.stat.exists == False
 
+  # Wait for 1 minute after cluster creation
+  - name: Kubernetes | Wait for Cluster (1 Minute)
+    pause:
+      minutes: 1
+    when: cluster_check.stat.exists == False
+
+  # Deploy all worker nodes
   - name: Kubernetes | Join Worker Nodes
     include_tasks: join-node.yml
 
+  # Finally deploy pod network
   - name: Kubernetes | Deploy Pod Network
     command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
     when: "'root_cluster' in group_names"
