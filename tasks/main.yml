@@ -13,9 +13,9 @@
       - "'root_cluster' in group_names"
       - root_check.stat.exists == False
 
-  - name: Kubernetes | Wait for Cluster (3 Minutes)
+  - name: Kubernetes | Wait for Cluster (1 Minute)
     pause:
-      minutes: 3
+      minutes: 1
     when: root_check.stat.exists == False
 
   - name: Kubernetes | Check Second Cluster
@@ -30,9 +30,9 @@
       - "'second_cluster' in group_names"
       - cluster_check.stat.exists == False
 
-  - name: Kubernetes | Wait for Cluster (3 Minutes)
+  - name: Kubernetes | Wait for Cluster (1 Minute)
     pause:
-      minutes: 3
+      minutes: 1
     when: root_check.stat.exists == False
 
   - name: Kubernetes | Third Cluster
@@ -40,3 +40,10 @@
     when:
       - "'third_cluster' in group_names"
       - cluster_check.stat.exists == False
+
+  - name: Kubernetes | Join Worker Nodes
+    include_tasks: join-node.yml
+
+  - name: Kubernetes | Deploy Pod Network
+    command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+    when: "'root_cluster' in group_names"

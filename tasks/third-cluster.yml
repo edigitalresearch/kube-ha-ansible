@@ -1,4 +1,4 @@
-  - name: Kubernetes | Write Second Cluster Config
+  - name: Kubernetes | Write Third Cluster Config
     template:
       src: kubeadm-config-third.yml.j2
       dest: /etc/kubernetes/kubeadm-config-third.yml
