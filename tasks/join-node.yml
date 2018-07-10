@@ -4,5 +4,5 @@
   when: "'root_cluster' in group_names"
 
 - name: Kubernetes | Join Worker Node
-  command: kubeadm join {{ kubernetes.load_balancer.dns }}:{{ kubernetes.load_balancer.port }} --token {{ join_token }} --discovery-token-unsafe-skip-ca-verification
+  command: "kubeadm join {{ kubernetes.load_balancer.dns }}:{{ kubernetes.load_balancer.port }} --token {{ join_token }} --discovery-token-unsafe-skip-ca-verification"
   when: "'kube_workers' in group_names"

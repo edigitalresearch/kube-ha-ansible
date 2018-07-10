@@ -5,24 +5,24 @@
   - name: Kubernetes | Check Root Cluster
     stat:
       path: /etc/kubernetes/kubeadm-config-root.yml
-    register: root_check
+    register: cluster_check
 
   - name: Kubernetes | Root Cluster
     include_tasks: root-cluster.yml
     when:
       - "'root_cluster' in group_names"
-      - root_check.stat.exists == False
+      - cluster_check.stat.exists == False
 
   - name: Kubernetes | Wait for Cluster (1 Minute)
     pause:
       minutes: 1
-    when: root_check.stat.exists == False
+    when: cluster_check.stat.exists == False
 
   - name: Kubernetes | Check Second Cluster
     stat:
       path: /etc/kubernetes/kubeadm-config-second.yml
     register: cluster_check
-    when: "'third_cluster' in group_names"
+    when: "'second_cluster' in group_names"
 
   - name: Kubernetes | Second Cluster
     include_tasks: second-cluster.yml
@@ -33,10 +33,16 @@
   - name: Kubernetes | Wait for Cluster (1 Minute)
     pause:
       minutes: 1
-    when: root_check.stat.exists == False
+    when: cluster_check.stat.exists == False
+
+  - name: Kubernetes | Check Third Cluster
+    stat:
+      path: /etc/kubernetes/kubeadm-config-third.yml
+    register: cluster_check
+    when: "'third_cluster' in group_names"
 
   - name: Kubernetes | Third Cluster
-    include_tasks: second-cluster.yml
+    include_tasks: third-cluster.yml
     when:
       - "'third_cluster' in group_names"
       - cluster_check.stat.exists == False
