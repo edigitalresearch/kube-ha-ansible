@@ -3,11 +3,10 @@
   - name: Kubernetes | Common Tasks
     include_tasks: common.yml
 
-  # Check if the root cluster has already been configured
-  - name: Kubernetes | Check Root Cluster
-    stat:
-      path: /etc/kubernetes/kubeadm-config-root.yml
-    register: cluster_check
+  # Deploy the root cluster if not configured
+  - name: Kubernetes | Root Cluster
+    include_tasks: root-cluster.yml
+    when: 'root_cluster' in group_names"
 
   # Wait for 1 minute after cluster creation
   - name: Kubernetes | Wait for Cluster (1 Minute)
