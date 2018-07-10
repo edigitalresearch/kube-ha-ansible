@@ -22,10 +22,21 @@
     stat:
       path: /etc/kubernetes/kubeadm-config-second.yml
     register: cluster_check
-    when: "'second_cluster' in group_names"
+    when: "'third_cluster' in group_names"
 
   - name: Kubernetes | Second Cluster
     include_tasks: second-cluster.yml
     when:
       - "'second_cluster' in group_names"
+      - cluster_check.stat.exists == False
+
+  - name: Kubernetes | Wait for Cluster (3 Minutes)
+    pause:
+      minutes: 3
+    when: root_check.stat.exists == False
+
+  - name: Kubernetes | Third Cluster
+    include_tasks: second-cluster.yml
+    when:
+      - "'third_cluster' in group_names"
       - cluster_check.stat.exists == False
