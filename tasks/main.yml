@@ -6,7 +6,7 @@
   # Deploy the root cluster if not configured
   - name: Kubernetes | Root Cluster
     include_tasks: root-cluster.yml
-    when: 'root_cluster' in group_names"
+    when: "'root_cluster' in group_names"
 
   # Wait for 1 minute after cluster creation
   - name: Kubernetes | Wait for Cluster (1 Minute)
