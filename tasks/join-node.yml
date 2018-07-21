@@ -1,8 +1,8 @@
 - name: Kubernetes | Generate Join Token
-  command: kubeadm token generate
+  shell: kubeadm token generate
   register: join_tokens
   when: "'root_cluster' in group_names"
-  with_sequence: start=1 end="{{ groups['kube_workers'] | length }}"
+  # with_sequence: start=1 end="{{ groups['kube_workers'] | length }}"
   tags:
     - scale
 
@@ -11,7 +11,7 @@
     msg: "{{ join_tokens }}"
   tags:
     - scale
-    
+
 # - name: DEBUG
 #   debug:
 #     msg: "{{ item }}"
