@@ -21,4 +21,4 @@ etcd:
       - {{ ansible_hostname }}
       - {{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}
 networking:
-    podSubnet: "10.1.0.0/16"
+    podSubnet: "{{ kubernetes.networking.podCidr }}"

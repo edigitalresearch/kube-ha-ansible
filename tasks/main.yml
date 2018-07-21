@@ -55,7 +55,7 @@
 
   # Finally deploy pod network
   - name: Kubernetes | Deploy Pod Network
-    command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+    command: "kubectl apply -f {{ kubernetes.networking.podManifest }}"
     when: "'root_cluster' in group_names"
     tags:
       - cluster
