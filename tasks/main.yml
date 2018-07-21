@@ -3,7 +3,7 @@
   - name: Kubernetes | Common Tasks
     include_tasks: common.yml
     tags:
-      - cluster
+      - core
 
   # Deploy the root cluster if not configured
   - name: Kubernetes | Root Cluster
