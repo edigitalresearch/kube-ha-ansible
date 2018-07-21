@@ -7,7 +7,7 @@
 - name: DEBUG
   debug:
     msg: "{{ item.value.results.stdout_lines[0] }}"
-  with_items: "{{ join_tokens }}"
+  with_dict: "{{ join_tokens }}"
 
 # - name: Kubernetes | Join Worker Node
 #   command: "kubeadm join {{ kubernetes.load_balancer.dns }}:{{ kubernetes.load_balancer.port }} --token {{ item.value.results.stdout_lines[0] }} --discovery-token-unsafe-skip-ca-verification"
