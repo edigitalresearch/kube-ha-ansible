@@ -1,6 +1,6 @@
 # Kubernetes HA Ansible
 
-This role sets up a HA Kubernetes cluster according to [https://kubernetes.io/docs/setup/independent/high-availability/](https://kubernetes.io/docs/setup/independent/high-availability/). For setting up the required infrastructure see - [https://github.com/dylanrhysscott/kube-ha-terraform/tree/1.0.0](https://github.com/dylanrhysscott/kube-ha-terraform/tree/1.0.0). Under the hood this role used `kubeadm` for management of the cluster. Once the cluster has been created the generated certificates will be downloaded to your local machine. Adding new masters is currently not supported.
+This role sets up a HA Kubernetes cluster according to [https://kubernetes.io/docs/setup/independent/high-availability/](https://kubernetes.io/docs/setup/independent/high-availability/). For setting up the required infrastructure see - [https://github.com/dylanrhysscott/kube-ha-terraform/tree/1.0.0](https://github.com/dylanrhysscott/kube-ha-terraform/tree/master). Under the hood this role used `kubeadm` for management of the cluster. Once the cluster has been created the generated certificates will be downloaded to your local machine. Adding new masters is currently not supported.
 
 ## Defining Hosts
 
