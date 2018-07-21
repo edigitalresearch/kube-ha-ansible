@@ -6,6 +6,11 @@
 
 - name: DEBUG
   debug:
+    msg: "{{ item }}"
+  with_items: "{{ join_tokens }}"
+
+- name: DEBUG
+  debug:
     msg: "{{ item.stdout_lines[0] }}"
   with_items: "{{ join_tokens }}"
 
