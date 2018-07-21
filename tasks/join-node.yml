@@ -9,7 +9,7 @@
 - name: DEBUG
   debug:
     msg: "{{ item }}"
-  with_items: "{{ join_tokens }}"
+  with_dict: "{{ join_tokens }}"
   tags:
     - scale
 
