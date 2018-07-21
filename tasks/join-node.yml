@@ -2,7 +2,7 @@
   command: kubeadm token generate
   register: join_tokens
   when: "'root_cluster' in group_names"
-  with_items: "{{ groups['kube_workers'] }}"
+  with_sequence: start=1 end="{{ groups['kube_workers'] | length }}"
   tags:
     - scale
 
@@ -10,12 +10,12 @@
   debug:
     msg: "{{ join_tokens }}"
 
-- name: DEBUG
-  debug:
-    msg: "{{ item }}"
-  with_dict: "{{ join_tokens }}"
-  tags:
-    - scale
+# - name: DEBUG
+#   debug:
+#     msg: "{{ item }}"
+#   with_items: "{{ join_tokens.results }}"
+#   tags:
+#     - scale
 
 # - name: Kubernetes | Join Worker Node
 #   command: "kubeadm join {{ kubernetes.load_balancer.dns }}:{{ kubernetes.load_balancer.port }} --token {{ item.value.results.stdout_lines[0] }} --discovery-token-unsafe-skip-ca-verification"
