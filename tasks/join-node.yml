@@ -1,8 +1,13 @@
 - name: Kubernetes | Generate Join Token
   command: kubeadm token generate
-  register: join_token
+  register: join_tokens
   when: "'root_cluster' in group_names"
+  with_items: "{{ groups['kube_workers'] }}"
 
-- name: Kubernetes | Join Worker Node
-  command: "kubeadm join {{ kubernetes.load_balancer.dns }}:{{ kubernetes.load_balancer.port }} --token {{ join_token }} --discovery-token-unsafe-skip-ca-verification"
-  when: "'kube_workers' in group_names"
+- name: DEBUG
+  debug:
+    msg: "{{ join_tokens }}"
+
+# - name: Kubernetes | Join Worker Node
+#   command: "kubeadm join {{ kubernetes.load_balancer.dns }}:{{ kubernetes.load_balancer.port }} --token {{ join_token }} --discovery-token-unsafe-skip-ca-verification"
+#   when: "'kube_workers' in group_names"
