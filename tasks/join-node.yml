@@ -15,7 +15,7 @@
 - name: DEBUG
   debug:
     msg: "{{ item }}"
-  when: "'stdout_lines' in item"
+  # when: "'stdout_lines' in item"
   with_items: "{{ join_tokens }}"
   tags:
     - scale
