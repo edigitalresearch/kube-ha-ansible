@@ -6,11 +6,11 @@
   tags:
     - scale
 
-- name: DEBUG
-  debug:
-    msg: "{{ join_tokens }}"
-  tags:
-    - scale
+# - name: DEBUG | ALL
+#   debug:
+#     msg: "{{ join_tokens }}"
+#   tags:
+#     - scale
 
 - name: DEBUG
   debug:
