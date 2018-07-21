@@ -7,14 +7,14 @@
 - name: DEBUG
   debug:
     msg: "{{ item }}"
-  with_dict: "{{ join_tokens }}"
+  with_dict: "{{ join_tokens.results }}"
 
 - name: DEBUG
   debug:
-    msg: "{{ item.stdout_lines[0] }}"
-  with_dict: "{{ join_tokens }}"
+    msg: "{{ item.value.stdout_lines[0] }}"
+  with_dict: "{{ join_tokens.results }}"
 
 - name: Kubernetes | Join Worker Node
-  command: "kubeadm join {{ kubernetes.load_balancer.dns }}:{{ kubernetes.load_balancer.port }} --token {{ item.stdout_lines[0] }} --discovery-token-unsafe-skip-ca-verification"
+  command: "kubeadm join {{ kubernetes.load_balancer.dns }}:{{ kubernetes.load_balancer.port }} --token {{ item.value.stdout_lines[0] }} --discovery-token-unsafe-skip-ca-verification"
   when: "'kube_workers' in group_names"
-  with_items: "{{ join_tokens }}"
+  with_items: "{{ join_tokens.results }}"
