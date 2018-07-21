@@ -3,7 +3,7 @@
   - name: Kubernetes | Common Tasks
     include_tasks: common.yml
     tags:
-      - core
+      - cluster
 
   # Deploy the root cluster if not configured
   - name: Kubernetes | Root Cluster
@@ -11,7 +11,6 @@
     when: "'root_cluster' in group_names"
     tags:
       - cluster
-      - root_cluster
 
   # Wait for 1 minute after cluster creation
   - name: Kubernetes | Wait for Cluster (1 Minute)
@@ -26,7 +25,6 @@
     when: "'second_cluster' in group_names"
     tags:
       - cluster
-      - second_cluster
 
   # Wait for 1 minute after cluster creation
   - name: Kubernetes | Wait for Cluster (1 Minute)
@@ -40,7 +38,6 @@
     include_tasks: third-cluster.yml
     when: "'third_cluster' in group_names"
     tags:
-      - third_cluster
       - cluster
 
   # Wait for 1 minute after cluster creation
@@ -61,4 +58,4 @@
     command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
     when: "'root_cluster' in group_names"
     tags:
-      - core
+      - cluster

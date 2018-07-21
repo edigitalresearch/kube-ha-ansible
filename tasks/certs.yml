@@ -2,6 +2,10 @@
     unarchive:
       src: ./pki.tar.gz
       dest: /etc/kubernetes
+    tags:
+      - cluster
 
   - name: Kubernetes | Move Config
     command: mv /etc/kubernetes/pki/config ~/.kube/config
+    tags:
+      - cluster

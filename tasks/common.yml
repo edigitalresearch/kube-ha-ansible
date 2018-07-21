@@ -1,6 +1,8 @@
 # Disable SELinux - SELinux prevents pods starting
 - name: Kubernetes | Disable SELINUX
   shell: setenforce 0
+  tags:
+    - core
 
 # Ensure SELinux stays disabled between reboots
 - name: Kubernetes | Update SELinux (Disable on Boot)
@@ -8,6 +10,8 @@
     path: /etc/selinux/config
     regexp: 'SELINUX=enforcing'
     replace: 'SELINUX=disabled'
+  tags:
+    - core
 
 # Add the Kubernetes Yum Repos
 - name: Kubernetes | Add Repos
@@ -17,6 +21,8 @@
     baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
     gpgcheck: no
     repo_gpgcheck: no
+  tags:
+    - core
 
 # Install Kubernetes Packages
 - name: Kubernetes | Install Packages
@@ -24,6 +30,8 @@
     name: "{{ item }}"
     state: present
   with_items: "{{ kubernetes.packages }}"
+  tags:
+    - core
 
 # Enable and start kube services
 - name: Kubernetes | Enable Services
@@ -34,6 +42,8 @@
   with_items:
     - docker
     - kubelet
+  tags:
+    - core
 
 # Create kube directories
 - name: Kubernetes | Create Kube Directory
@@ -42,6 +52,8 @@
     state: directory
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_id }}"
+  tags:
+    - core
 
 # Allow bridged pod comms
 - name: Kubernetes | Set IPTables
@@ -51,3 +63,5 @@
     sysctl_set: yes
     state: present
     reload: yes
+  tags:
+    - core
