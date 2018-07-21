@@ -2,7 +2,7 @@
   shell: kubeadm token generate
   register: join_tokens
   when: "'root_cluster' in group_names"
-  # with_sequence: start=1 end="{{ groups['kube_workers'] | length }}"
+  with_sequence: start=1 end="{{ groups['kube_workers'] | length }}"
   tags:
     - scale
 
@@ -11,6 +11,12 @@
     msg: "{{ join_tokens }}"
   tags:
     - scale
+
+- name: DEBUG
+  debug:
+    msg: {{ item }}
+  when: "'stdout_lines' in item"
+  with_items: "{{ join_tokens }}"
 
 # - name: DEBUG
 #   debug:
