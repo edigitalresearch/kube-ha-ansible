@@ -8,6 +8,10 @@
 
 - name: DEBUG
   debug:
+    msg: "{{ join_tokens }}"
+
+- name: DEBUG
+  debug:
     msg: "{{ item }}"
   with_dict: "{{ join_tokens }}"
   tags:
