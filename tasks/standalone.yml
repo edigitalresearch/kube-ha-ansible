@@ -1,0 +1,6 @@
+---
+  # Install core K8s components on all nodes
+  - name: Kubernetes | Common Tasks
+    include_tasks: common.yml
+    tags:
+      - core

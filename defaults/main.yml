@@ -1,4 +1,5 @@
 kubernetes:
+  ha: true
   networking:
     podCidr: 10.244.0.0/16
     podManifest: https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml

@@ -1,0 +1,61 @@
+---
+  # Install core K8s components on all nodes
+  - name: Kubernetes | Common Tasks
+    include_tasks: common.yml
+    tags:
+      - core
+
+  # Deploy the root cluster if not configured
+  - name: Kubernetes | Root Cluster
+    include_tasks: root-cluster.yml
+    when: "'root_cluster' in group_names"
+    tags:
+      - cluster
+
+  # Wait for 1 minute after cluster creation
+  - name: Kubernetes | Wait for Cluster (1 Minute)
+    pause:
+      minutes: 1
+    tags:
+      - cluster
+
+  # Deploy second cluster if not configured
+  - name: Kubernetes | Second Cluster
+    include_tasks: second-cluster.yml
+    when: "'second_cluster' in group_names"
+    tags:
+      - cluster
+
+  # Wait for 1 minute after cluster creation
+  - name: Kubernetes | Wait for Cluster (1 Minute)
+    pause:
+      minutes: 1
+    tags:
+      - cluster
+
+  # Deploy third cluster if not configured
+  - name: Kubernetes | Third Cluster
+    include_tasks: third-cluster.yml
+    when: "'third_cluster' in group_names"
+    tags:
+      - cluster
+
+  # Wait for 1 minute after cluster creation
+  - name: Kubernetes | Wait for Cluster (1 Minute)
+    pause:
+      minutes: 1
+    tags:
+      - cluster
+
+  # Deploy all worker nodes
+  - name: Kubernetes | Join Worker Nodes
+    include_tasks: join-node.yml
+    tags:
+      - scale
+
+  # Finally deploy pod network
+  - name: Kubernetes | Deploy Pod Network
+    command: "kubectl apply -f {{ kubernetes.networking.podManifest }}"
+    when: "'root_cluster' in group_names"
+    tags:
+      - cluster
