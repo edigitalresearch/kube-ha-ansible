@@ -17,6 +17,13 @@
     include_tasks: join-node.yml
     tags:
       - scale
+      
+  # Configure kubectl
+  - name: Kubernetes | Copy kubectl configuration
+    command: cp /etc/kubernetes/admin.conf ~/.kube/config
+    tags:
+      - cluster
+    when: "'root_cluster' in group_names"
 
   # Finally deploy pod network
   - name: Kubernetes | Deploy Pod Network
