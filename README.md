@@ -70,7 +70,7 @@ networking:
     - kube-ha
 ```
 
-### Adding additional workers
+## Adding additional workers
 
 Additional workers can be added to the cluster by:
 
@@ -79,7 +79,7 @@ Additional workers can be added to the cluster by:
 
 The initial cluster creation will be skipped by core components will be installed and the node joined via token
 
-### Operating in standalone mode
+## Operating in standalone mode
 
 A standalone non HA cluster can be deployed in the same way by setting `kubernetes.ha` to `false`. This removes the requirement for a load balancer and the `second_cluster` and `third_cluster` groups
 
