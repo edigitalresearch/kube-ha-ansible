@@ -4,12 +4,13 @@
     include_tasks: common.yml
     tags:
       - core
-      
+
   # Initialise single master cluster
   - name: Kubernetes | Initalise Cluster
     command: kubeadm init --pod-network-cidr="{{ kubernetes.networking.podCidr }}"
     tags:
       - cluster
+    when: "'root_cluster' in group_names"
 
   # Deploy all worker nodes
   - name: Kubernetes | Join Worker Nodes
