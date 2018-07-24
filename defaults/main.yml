@@ -1,5 +1,5 @@
 kubernetes:
-  diableselinux: false
+  disableselinux: false
   ha: true
   networking:
     podCidr: 10.244.0.0/16
