@@ -10,6 +10,7 @@
     path: /etc/selinux/config
     regexp: 'SELINUX=enforcing'
     replace: 'SELINUX=disabled'
+  when: kubernetes.disableselinux == "True"
   tags:
     - core
 
