@@ -1,4 +1,5 @@
 kubernetes:
+  disableselinux: false
   ha: true
   networking:
     podCidr: 10.244.0.0/16
@@ -6,5 +7,4 @@ kubernetes:
   packages:
     - kubeadm
     - kubectl
-    - docker
     - kubelet
