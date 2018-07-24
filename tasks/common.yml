@@ -1,5 +1,5 @@
 # Disable SELinux - SELinux prevents pods starting
-- name: Kubernetes | Disable SELINUX
+- name: Kubernetes | Disable SELINUX for deployment
   shell: setenforce 0
   tags:
     - core
