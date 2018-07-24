@@ -7,7 +7,7 @@
 
   # Initialise single master cluster
   - name: Kubernetes | Initalise Cluster
-    command: kubeadm --apiserver-advertise-address={{ ansible_eth1.ipv4.address }} init --pod-network-cidr="{{ kubernetes.networking.podCidr }}"
+    command: kubeadm --apiserver-advertise-address={{ kubernetes.networking.advertiseAddress | default(ansible_eth1.ipv4.address) }} init --pod-network-cidr="{{ kubernetes.networking.podCidr }}"
     tags:
       - cluster
     when: "'root_cluster' in group_names"
