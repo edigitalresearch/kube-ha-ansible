@@ -27,7 +27,7 @@
 # Get Docker Script
 - name: Kubernetes | Get Docker Script
   get_url:
-    url: get.docker.com
+    url: https://get.docker.com/
     dest: /tmp/get_docker.sh
     mode: 0755
 
