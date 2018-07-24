@@ -6,5 +6,4 @@ kubernetes:
   packages:
     - kubeadm
     - kubectl
-    - docker
     - kubelet
