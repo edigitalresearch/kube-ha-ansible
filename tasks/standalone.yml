@@ -7,7 +7,7 @@
 
   # Initialise single master cluster
   - name: Kubernetes | Initalise Cluster
-    command: kubeadm init --pod-network-cidr="{{ kubernetes.networking.podCidr }}"
+    command: kubeadm --apiserver-advertise-address={{ ansible_eth1.ipv4.address }} init --pod-network-cidr="{{ kubernetes.networking.podCidr }}"
     tags:
       - cluster
     when: "'root_cluster' in group_names"
@@ -17,7 +17,7 @@
     include_tasks: join-node.yml
     tags:
       - scale
-      
+
   # Configure kubectl
   - name: Kubernetes | Copy kubectl configuration
     command: cp /etc/kubernetes/admin.conf ~/.kube/config

@@ -24,8 +24,19 @@
   tags:
     - core
 
+# Get Docker Script
+- name: Kubernetes | Get Docker Script
+  get_url:
+    url: get.docker.com
+    dest: /tmp/get_docker.sh
+    mode: 0755
+
+# Install Docker
+- name: Kubernetes | Install Docker
+  shell: /tmp/get_docker.sh
+
 # Install Kubernetes Packages
-- name: Kubernetes | Install Packages
+- name: Kubernetes | Install Kubernetes Packages
   yum:
     name: "{{ item }}"
     state: present
