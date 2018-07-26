@@ -81,10 +81,12 @@ The initial cluster creation will be skipped by core components will be installe
 
 ## Operating in standalone mode
 
-A standalone non HA cluster can be deployed in the same way by setting `kubernetes.ha` to `false`. This removes the requirement for a load balancer and the `second_cluster` and `third_cluster` groups
+A standalone non HA cluster can be deployed in the same way by setting `kubernetes.ha` to `false`. This removes the requirement for a load balancer and the `second_cluster` and `third_cluster` groups. In standalone mode you must specify an advertise address. In HA mode it is assumed there is an `eth1` adapter with the private IP address to advertise. In future both methods should pick the correct advertise IPs.
 
 ```
 kubernetes:
+  networking:
+    advertiseAddress: 1.1.1.1
   ha: false
 ```
 
