@@ -8,17 +8,17 @@ api:
 etcd:
   local:
     extraArgs:
-      listen-client-urls: "https://127.0.0.1:2379,https://{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}:2379"
-      advertise-client-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}:2379"
-      listen-peer-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}:2380"
-      initial-advertise-peer-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}:2380"
-      initial-cluster: "{{ hostvars[ groups['root_cluster'][0] ]['ansible_hostname'] }}=https://{{ hostvars[ groups['root_cluster'][0] ]['ansible_eth1']['ipv4']['address'] }}:2380,{{ hostvars[ groups['second_cluster'][0] ]['ansible_hostname'] }}=https://{{ hostvars[ groups['second_cluster'][0] ]['ansible_eth1']['ipv4']['address'] }}:2380,{{ ansible_hostname }}=https://{{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}:2380"
+      listen-client-urls: "https://127.0.0.1:2379,https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2379"
+      advertise-client-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2379"
+      listen-peer-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
+      initial-advertise-peer-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
+      initial-cluster: "{{ hostvars[ groups['root_cluster'][0] ]['ansible_hostname'] }}=https://{{ hostvars[ groups['root_cluster'][0] ]['ansible_eth0']['ipv4']['address'] }}:2380,{{ hostvars[ groups['second_cluster'][0] ]['ansible_hostname'] }}=https://{{ hostvars[ groups['second_cluster'][0] ]['ansible_eth0']['ipv4']['address'] }}:2380,{{ ansible_hostname }}=https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
       initial-cluster-state: existing
     serverCertSANs:
       - {{ ansible_hostname }}
-      - {{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}
+      - {{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}
     peerCertSANs:
       - {{ ansible_hostname }}
-      - {{ hostvars[inventory_hostname]['ansible_eth1']['ipv4']['address'] }}
+      - {{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}
 networking:
     podSubnet: "{{ kubernetes.networking.podCidr }}"
