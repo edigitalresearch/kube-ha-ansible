@@ -13,6 +13,7 @@ etcd:
       listen-peer-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
       initial-advertise-peer-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
       initial-cluster: "{{ ansible_hostname }}=https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
+      name: "{{ ansible_hostname }}"
     serverCertSANs:
       - {{ ansible_hostname }}
       - {{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}
