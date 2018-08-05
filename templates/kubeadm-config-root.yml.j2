@@ -12,13 +12,13 @@ etcd:
       advertise-client-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2379"
       listen-peer-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
       initial-advertise-peer-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
-      initial-cluster: "{{ ansible_hostname }}=https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
-      name: "{{ ansible_hostname }}"
+      initial-cluster: "{{ ansible_fqdn }}=https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
+      name: "{{ ansible_fqdn }}"
     serverCertSANs:
-      - {{ ansible_hostname }}
+      - {{ ansible_fqdn }}
       - {{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}
     peerCertSANs:
-      - {{ ansible_hostname }}
+      - {{ ansible_fqdn }}
       - {{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}
 networking:
     podSubnet: "{{ kubernetes.networking.podCidr }}"
