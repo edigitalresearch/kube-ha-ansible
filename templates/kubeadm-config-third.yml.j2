@@ -15,10 +15,10 @@ etcd:
       initial-cluster: "master01=https://{{ hostvars[ groups['root_cluster'][0] ]['ansible_eth0']['ipv4']['address'] }}:2380,master02=https://{{ hostvars[ groups['second_cluster'][0] ]['ansible_eth0']['ipv4']['address'] }}:2380,master03=https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
       initial-cluster-state: existing
     serverCertSANs:
-      - {{ ansible_hostname }}
+      - master02
       - {{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}
     peerCertSANs:
-      - {{ ansible_hostname }}
+      - master02
       - {{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}
 networking:
     podSubnet: "{{ kubernetes.networking.podCidr }}"

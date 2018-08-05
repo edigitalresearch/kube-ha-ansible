@@ -14,10 +14,10 @@ etcd:
       initial-advertise-peer-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
       initial-cluster: "master01=https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
     serverCertSANs:
-      - {{ ansible_hostname }}
+      - master01
       - {{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}
     peerCertSANs:
-      - {{ ansible_hostname }}
+      - master01
       - {{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}
 networking:
     podSubnet: "{{ kubernetes.networking.podCidr }}"
