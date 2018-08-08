@@ -14,11 +14,12 @@ etcd:
       initial-advertise-peer-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
       initial-cluster: "{{ hostvars[ groups['root_cluster'][0] ]['ansible_fqdn'] }}=https://{{ hostvars[ groups['root_cluster'][0] ]['ansible_eth0']['ipv4']['address'] }}:2380,{{ hostvars[ groups['second_cluster'][0] ]['ansible_fqdn'] }}=https://{{ hostvars[ groups['second_cluster'][0] ]['ansible_eth0']['ipv4']['address'] }}:2380,{{ ansible_fqdn }}=https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
       initial-cluster-state: existing
+      name: "{{ ansible_fqdn }}"
     serverCertSANs:
-      - {{ ansible_hostname }}
+      - {{ ansible_fqdn }}
       - {{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}
     peerCertSANs:
-      - {{ ansible_hostname }}
+      - {{ ansible_fqdn }}
       - {{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}
 networking:
     podSubnet: "{{ kubernetes.networking.podCidr }}"
