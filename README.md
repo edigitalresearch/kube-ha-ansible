@@ -61,7 +61,7 @@ networking:
   podManifest: https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 ```
 
-Additional API SANS can be added to the certificates by adding an `extra_sans` key to the load balancer configuration
+Additional API SANS can be added to the certificates by adding an `extra_sans` key to the load balancer configuration. This is optional
 
 ```
 kubernetes:
