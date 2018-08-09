@@ -1,6 +1,6 @@
 # Kubernetes HA Ansible
 
-This role sets up a HA Kubernetes cluster according to [https://kubernetes.io/docs/setup/independent/high-availability/](https://kubernetes.io/docs/setup/independent/high-availability/). For setting up the required infrastructure see - [https://github.com/dylanrhysscott/kube-ha-terraform/tree/1.0.0](https://github.com/dylanrhysscott/kube-ha-terraform/tree/master). Under the hood this role used `kubeadm` for management of the cluster. Once the cluster has been created the generated certificates will be downloaded to your local machine. Adding new masters is currently not supported.
+This role sets up a HA Kubernetes cluster according to [https://kubernetes.io/docs/setup/independent/high-availability/](https://kubernetes.io/docs/setup/independent/high-availability/). For setting up the required infrastructure see - [https://github.com/dylanrhysscott/kube-ha-terraform/tree/master](https://github.com/dylanrhysscott/kube-ha-terraform/tree/master). Under the hood this role used `kubeadm` for management of the cluster. Once the cluster has been created the generated certificates will be downloaded to your local machine. Adding new masters is currently not supported.
 
 You can also deploy a single master configuration with no load balancer if required.
 
@@ -61,6 +61,17 @@ networking:
   podManifest: https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 ```
 
+Additional API SANS can be added to the certificates by adding an `extra_sans` key to the load balancer configuration
+
+```
+kubernetes:
+  load_balancer:
+    extra_sans:
+      - my.extra.apiserver.domain
+```
+
+This is useful for if you are using an internal load balancer that has a private DNS name
+
 ## Example task with role
 
 ```
@@ -81,7 +92,7 @@ The initial cluster creation will be skipped by core components will be installe
 
 ## Operating in standalone mode
 
-A standalone non HA cluster can be deployed in the same way by setting `kubernetes.ha` to `false`. This removes the requirement for a load balancer and the `second_cluster` and `third_cluster` groups. In standalone mode you must specify an advertise address. In HA mode it is assumed there is an `eth1` adapter with the private IP address to advertise. In future both methods should pick the correct advertise IPs.
+A standalone non HA cluster can be deployed in the same way by setting `kubernetes.ha` to `false`. This removes the requirement for a load balancer and the `second_cluster` and `third_cluster` groups. In standalone mode you must specify an advertise address. In HA mode it is assumed there is an `eth0` adapter with the private IP address to advertise. In future both methods should pick the correct advertise IPs.
 
 ```
 kubernetes:
