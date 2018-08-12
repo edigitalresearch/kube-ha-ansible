@@ -3,6 +3,11 @@ kind: MasterConfiguration
 kubernetesVersion: v1.11.0
 apiServerCertSANs:
 - "{{ kubernetes.load_balancer.dns }}"
+{% if kubernetes.load_balancer.extra_sans is defined %}
+{% foreach san in kubernetes.load_balancer.extra_sans %}
+- "{{ san }}"
+{% endfor %}
+{% endif %}
 api:
     controlPlaneEndpoint: "{{ kubernetes.load_balancer.dns }}:{{ kubernetes.load_balancer.port }}"
 etcd:
@@ -14,6 +19,7 @@ etcd:
       initial-advertise-peer-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
       initial-cluster: "{{ hostvars[ groups['root_cluster'][0] ]['ansible_fqdn'] }}=https://{{ hostvars[ groups['root_cluster'][0] ]['ansible_eth0']['ipv4']['address'] }}:2380,{{ ansible_fqdn }}=https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
       initial-cluster-state: existing
+      name: "{{ ansible_fqdn }}"
     serverCertSANs:
       - {{ ansible_fqdn }}
       - {{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}
