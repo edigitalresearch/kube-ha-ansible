@@ -1,4 +1,6 @@
 kubernetes:
+  load_balancer:
+    extra_sans: []
   disableselinux: false
   ha: true
   networking:
