@@ -3,9 +3,11 @@ kind: MasterConfiguration
 kubernetesVersion: v1.11.0
 apiServerCertSANs:
 - "{{ kubernetes.load_balancer.dns }}"
-{% foreach san in kubernetes.load_balancer.extra_sans %}
+{% if kubernetes.load_balancer.extra_sans is defined %}
+{% for san in kubernetes.load_balancer.extra_sans %}
 - "{{ san }}"
 {% endfor %}
+{% endif %}
 api:
     controlPlaneEndpoint: "{{ kubernetes.load_balancer.dns }}:{{ kubernetes.load_balancer.port }}"
 etcd:
