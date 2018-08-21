@@ -4,7 +4,7 @@ kubernetesVersion: v1.11.0
 apiServerCertSANs:
 - "{{ kubernetes.load_balancer.dns }}"
 {% if kubernetes.load_balancer.extra_sans is defined %}
-{% foreach san in kubernetes.load_balancer.extra_sans %}
+{% for san in kubernetes.load_balancer.extra_sans %}
 - "{{ san }}"
 {% endfor %}
 {% endif %}
