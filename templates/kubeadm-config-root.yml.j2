@@ -27,7 +27,7 @@ etcd:
       - {{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}
 networking:
     podSubnet: "{{ kubernetes.networking.podCidr }}"
-{% if kubernetes.cloudProvider %}
+{% if kubernetes.cloudController %}
 kubeletConfiguration:
   cloudProvider: external
 {% endif %}
