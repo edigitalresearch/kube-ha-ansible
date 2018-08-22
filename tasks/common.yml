@@ -54,7 +54,6 @@
     group: root
     mode: 0644
   when: kubernetes.kubeletArgs is defined
-  notify: "restart kubelet"
   tags:
     - core
 
