@@ -45,6 +45,19 @@
   tags:
     - core
 
+# If additional kubelet args specified write them to env
+- name: Kubernetes | Write Kubelet Env File
+  template:
+    src: kubelet.j2
+    dest: /etc/sysconfig/kubelet
+    owner: root
+    group: root
+    mode: 0644
+  when: kubernetes.kubeletArgs is defined
+  notify: "restart kubelet"
+  tags:
+    - core
+
 # Enable and start kube services
 - name: Kubernetes | Enable Services
   systemd:
