@@ -6,6 +6,7 @@
       - cluster
       - core
       - scale
+      - ccm
     when: kubernetes.ha == True
 
   - name: Kubernetes | Deploy Single Master Cluster
