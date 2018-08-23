@@ -1,0 +1,11 @@
+# If additional kubelet args specified write them to env
+- name: Kubernetes | Write Kubelet Env File
+  template:
+    src: kubelet.j2
+    dest: /etc/sysconfig/kubelet
+    owner: root
+    group: root
+    mode: 0644
+  when: kubernetes.kubeletArgs is defined
+  tags:
+    - ccm

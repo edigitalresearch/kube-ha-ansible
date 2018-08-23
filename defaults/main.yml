@@ -1,7 +1,8 @@
 kubernetes:
   disableselinux: false
   cloudController: false
-  kubeletArgs: []
+  kubeletArgs:
+    - --cloud-provider=external
   ha: true
   networking:
     podCidr: 10.244.0.0/16
