@@ -23,7 +23,7 @@
       - cluster
 
   - name: Kubernetes | Bootstrap ETCD
-    command: "kubectl exec -n kube-system etcd-{{ hostvars[ groups['root_cluster'][0] ]['ansible_fqdn'] }} -- etcdctl --ca-file /etc/kubernetes/pki/etcd/ca.crt --cert-file /etc/kubernetes/pki/etcd/peer.crt --key-file /etc/kubernetes/pki/etcd/peer.key --endpoints=https://{{ hostvars[ groups['root_cluster'][0] ]['ansible_eth0']['ipv4']['address'] }}:2379 member add {{ inventory_hostname }} https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
+    command: "kubectl exec -n kube-system k8s_etcd_etcd-{{ hostvars[ groups['root_cluster'][0] ]['ansible_fqdn'] }} -- etcdctl --ca-file /etc/kubernetes/pki/etcd/ca.crt --cert-file /etc/kubernetes/pki/etcd/peer.crt --key-file /etc/kubernetes/pki/etcd/peer.key --endpoints=https://{{ hostvars[ groups['root_cluster'][0] ]['ansible_eth0']['ipv4']['address'] }}:2379 member add {{ inventory_hostname }} https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
     register: bootstrap_etcd
     tags:
       - cluster
