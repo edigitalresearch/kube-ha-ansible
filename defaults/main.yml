@@ -1,6 +1,7 @@
 kubernetes:
   disableselinux: false
   cloudController: false
+  kubeletArgs: []
   ha: true
   networking:
     podCidr: 10.244.0.0/16
