@@ -33,6 +33,7 @@
     msg: "{{ tolerations }}"
   tags:
     - ccm
+  when: "{{ item.changed }}"
 
 # # Apply Tolerations
 # - name: Kubernetes | Apply CCM tolerations
