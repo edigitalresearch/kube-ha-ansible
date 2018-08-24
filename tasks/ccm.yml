@@ -30,11 +30,9 @@
 
 - name: DEBUG
   debug:
-    msg: "{{ item }}"
+    msg: "{{ tolerations.results }}"
   tags:
     - ccm
-  with_items: "{{ tolerations }}"
-  # when: item.changed
 
 # # Apply Tolerations
 # - name: Kubernetes | Apply CCM tolerations
