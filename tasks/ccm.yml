@@ -34,7 +34,7 @@
   tags:
     - ccm
   with_items: "{{ tolerations }}"
-  when: item.changed
+  # when: item.changed
 
 # # Apply Tolerations
 # - name: Kubernetes | Apply CCM tolerations
