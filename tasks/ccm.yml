@@ -21,7 +21,7 @@
 # Generate tolerations
 - name: Kubernetes | Generate CCM tolerations
   register: tolerations
-  command: echo "kubectl taint node {{ item }} node.cloudprovider.kubernetes.io/uninitialized=true:NoSchedule"
+  command: "kubectl taint node {{ item }} node.cloudprovider.kubernetes.io/uninitialized=true:NoSchedule"
   when: "'root_cluster' in group_names"
   with_inventory_hostnames:
     - all
@@ -30,7 +30,7 @@
 
 - name: DEBUG
   debug:
-    msg: "{{ tolerations.results }}"
+    msg: "{{ tolerations }}"
   tags:
     - ccm
 
