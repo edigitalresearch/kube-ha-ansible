@@ -1,3 +1,4 @@
+# Generate join tokens
 - name: Kubernetes | Generate Join Token
   shell: kubeadm token create --print-join-command
   register: join_tokens
@@ -6,6 +7,7 @@
   tags:
     - scale
 
+# Apply join tokens to workers
 - name: Kubernetes | Join Worker Node
   command: "{{ hostvars[groups['root_cluster'][0]]['join_tokens']['results'][groups['kube_workers'].index(inventory_hostname)]['stdout'] }}"
   when: "'kube_workers' in group_names"
