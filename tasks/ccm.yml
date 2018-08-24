@@ -27,13 +27,3 @@
     - all
   tags:
     - ccm
-
-- name: DEBUG
-  debug:
-    msg: "{{ tolerations }}"
-  tags:
-    - ccm
-
-# # Apply Tolerations
-# - name: Kubernetes | Apply CCM tolerations
-#   command:
