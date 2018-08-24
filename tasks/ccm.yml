@@ -15,6 +15,8 @@
   systemd:
     name: kubelet
     state: restarted
+  tags:
+    - ccm
 
 # Generate tolerations
 - name: Kubernetes | Generate CCM tolerations
@@ -23,10 +25,14 @@
   when: "'root_cluster' in group_names"
   with_inventory_hostnames:
     - all
+  tags:
+    - ccm
 
 - name: DEBUG
   debug:
     msg: "{{ tolerations }}"
+  tags:
+    - ccm
 
 # # Apply Tolerations
 # - name: Kubernetes | Apply CCM tolerations
