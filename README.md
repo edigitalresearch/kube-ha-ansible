@@ -90,6 +90,26 @@ Additional workers can be added to the cluster by:
 
 The initial cluster creation will be skipped by core components will be installed and the node joined via token
 
+## Cloud Provider Integration
+
+### Cloud Controller Manager
+
+This role provides support for Cloud Controller Manager (CCM). This provides Kubernetes integration with various cloud providers. Specifically Persistent Volumes and Load Balancers.
+
+**Note: At the time of writing CCM is bleeding edge and Kubernetes support is not yet ready. It is encouraged to use Kube Controller as support is more mature. CCM does not provide support for in tree storage plugins / load balancers out of the box. As the spec develops and cloud provider support decouples from core this should change**
+
+* [https://kubernetes.io/docs/tasks/administer-cluster/running-cloud-controller/#limitations](https://kubernetes.io/docs/tasks/administer-cluster/running-cloud-controller/#limitations)
+* [https://kubernetes.io/docs/tasks/administer-cluster/running-cloud-controller/](https://kubernetes.io/docs/tasks/administer-cluster/running-cloud-controller/)
+
+The steps to enable this are listed for **documentation purposes only!**. To enable CCM support:
+
+```
+kubernetes:
+  cloudController: true
+```
+
+Then run the CCM tags. For example: `ansible-playbook -i inventory -u root -b playbooks/kube-ha.yml --tags=ccm`. This will update flags to the kubelet and apply the relevant taints. You must then deploy the cloud controller with your environment configuration: [https://raw.githubusercontent.com/kubernetes/website/master/content/en/examples/admin/cloud/ccm-example.yaml](https://raw.githubusercontent.com/kubernetes/website/master/content/en/examples/admin/cloud/ccm-example.yaml)
+
 ## Operating in standalone mode
 
 A standalone non HA cluster can be deployed in the same way by setting `kubernetes.ha` to `false`. This removes the requirement for a load balancer and the `second_cluster` and `third_cluster` groups. In standalone mode you must specify an advertise address. In HA mode it is assumed there is an `eth0` adapter with the private IP address to advertise. In future both methods should pick the correct advertise IPs.
