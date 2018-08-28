@@ -3,6 +3,7 @@ kubernetes:
   cloudProviders:
     integrateCloudProvider: false
     cloudRoutes: false
+    clusterName: kubernetes
   ha: true
   networking:
     podCidr: 10.244.0.0/16

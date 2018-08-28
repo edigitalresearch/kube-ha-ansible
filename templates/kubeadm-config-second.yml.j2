@@ -1,6 +1,7 @@
 apiVersion: kubeadm.k8s.io/v1alpha2
 kind: MasterConfiguration
 kubernetesVersion: v1.11.0
+clusterName: "{{ kubernetes.cloudProviders.clusterName }}"
 apiServerCertSANs:
 - "{{ kubernetes.load_balancer.dns }}"
 {% if kubernetes.load_balancer.extra_sans is defined %}
@@ -36,6 +37,7 @@ controllerManagerExtraArgs:
   cluster-name: "{{ kubernetes.cloudProviders.clusterName }}"
   configure-cloud-routes: "{{ kubernetes.cloudProviders.cloudRoutes }}"
 nodeRegistration:
+  name: "{{ ansible_fqdn }}"
   kubeletExtraArgs:
     cloud-provider: "{{ kubernetes.cloudProviders.provider }}"
 {% endif %}
