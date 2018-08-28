@@ -27,3 +27,12 @@ etcd:
       - {{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}
 networking:
     podSubnet: "{{ kubernetes.networking.podCidr }}"
+{% if kubernetes.cloudProviders.integrateCloudProvider %}
+apiServerExtraArgs:
+  cloud-provider: "{{ kubernetes.cloudProviders.provider }}"
+controllerManagerExtraArgs:
+  cloud-provider: "{{ kubernetes.cloudProviders.provider }}"
+nodeRegistration:
+  kubeletExtraArgs:
+    cloud-provider: "{{ kubernetes.cloudProviders.provider }}"
+{% endif %}

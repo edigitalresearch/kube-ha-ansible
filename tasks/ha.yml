@@ -59,10 +59,3 @@
     when: "'root_cluster' in group_names"
     tags:
       - cluster
-
-  # Optionally deploy the CCM
-  - name: Kubernetes | Deploy CCM Support
-    include_tasks: ccm.yml
-    when: kubernetes.cloudController == True
-    tags:
-      - ccm

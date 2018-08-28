@@ -92,23 +92,9 @@ The initial cluster creation will be skipped by core components will be installe
 
 ## Cloud Provider Integration
 
-### Cloud Controller Manager
+This provides Kubernetes integration with various cloud providers - Specifically Persistent Volumes and Load Balancers.
 
-This role provides support for Cloud Controller Manager (CCM). This provides Kubernetes integration with various cloud providers. Specifically Persistent Volumes and Load Balancers.
-
-**Note: At the time of writing CCM is bleeding edge and Kubernetes support is not yet ready. It is encouraged to use Kube Controller as support is more mature. CCM does not provide support for in tree storage plugins / load balancers out of the box. As the spec develops and cloud provider support decouples from core this should change**
-
-* [https://kubernetes.io/docs/tasks/administer-cluster/running-cloud-controller/#limitations](https://kubernetes.io/docs/tasks/administer-cluster/running-cloud-controller/#limitations)
-* [https://kubernetes.io/docs/tasks/administer-cluster/running-cloud-controller/](https://kubernetes.io/docs/tasks/administer-cluster/running-cloud-controller/)
-
-The steps to enable this are listed for **documentation purposes only!**. To enable CCM support:
-
-```
-kubernetes:
-  cloudController: true
-```
-
-Then run the CCM tags. For example: `ansible-playbook -i inventory -u root -b playbooks/kube-ha.yml --tags=ccm`. This will update flags to the kubelet and apply the relevant taints. You must then deploy the cloud controller with your environment configuration: [https://raw.githubusercontent.com/kubernetes/website/master/content/en/examples/admin/cloud/ccm-example.yaml](https://raw.githubusercontent.com/kubernetes/website/master/content/en/examples/admin/cloud/ccm-example.yaml)
+TBA
 
 ## Operating in standalone mode
 
