@@ -33,6 +33,7 @@ apiServerExtraArgs:
 controllerManagerExtraArgs:
   cloud-provider: "{{ kubernetes.cloudProviders.provider }}"
   cluster-name: "{{ kubernetes.cloudProviders.clusterName }}"
+  configure-cloud-routes: "{{ kubernetes.cloudProviders.cloudRoutes }}"
 nodeRegistration:
   kubeletExtraArgs:
     cloud-provider: "{{ kubernetes.cloudProviders.provider }}"
