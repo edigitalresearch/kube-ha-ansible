@@ -6,7 +6,7 @@
     owner: root
     group: root
     mode: 0644
-  when: "'kube_workers' in group_names" and kubernetes.cloudProviders.integrateCloudProvider == True
+  when: "'kube_workers' in group_names and kubernetes.cloudProviders.integrateCloudProvider == True"
   tags:
     - scale
 
@@ -15,7 +15,7 @@
   systemd:
     name: kubelet
     state: restarted
-  when: "'kube_workers' in group_names" and "kubernetes.cloudProviders.integrateCloudProvider" == True
+  when: "'kube_workers' in group_names and kubernetes.cloudProviders.integrateCloudProvider == True"
   tags:
     - scale
 
