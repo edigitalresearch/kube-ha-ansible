@@ -59,3 +59,4 @@
     when: "'root_cluster' in group_names"
     tags:
       - cluster
+      - networking
