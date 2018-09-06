@@ -90,6 +90,12 @@ Additional workers can be added to the cluster by:
 
 The initial cluster creation will be skipped by core components will be installed and the node joined via token
 
+## Cloud Provider Integration
+
+This provides Kubernetes integration with various cloud providers - Specifically Persistent Volumes and Load Balancers.
+
+TBA
+
 ## Operating in standalone mode
 
 A standalone non HA cluster can be deployed in the same way by setting `kubernetes.ha` to `false`. This removes the requirement for a load balancer and the `second_cluster` and `third_cluster` groups. In standalone mode you must specify an advertise address. In HA mode it is assumed there is an `eth0` adapter with the private IP address to advertise. In future both methods should pick the correct advertise IPs.

@@ -6,6 +6,7 @@
       - cluster
       - core
       - scale
+      - networking
     when: kubernetes.ha == True
 
   - name: Kubernetes | Deploy Single Master Cluster
@@ -14,4 +15,5 @@
       - ha
       - core
       - scale
+      - networking
     when: kubernetes.ha == False

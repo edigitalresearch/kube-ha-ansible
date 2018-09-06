@@ -1,3 +1,25 @@
+# If cloud provider specified write it to env
+- name: Kubernetes | Write Kubelet Env File - Cloud Provider
+  template:
+    src: kubelet.j2
+    dest: /etc/sysconfig/kubelet
+    owner: root
+    group: root
+    mode: 0644
+  when: "'kube_workers' in group_names and kubernetes.cloudProviders.integrateCloudProvider == True"
+  tags:
+    - scale
+
+# Restart the kubelet
+- name: Kubernetes | Restart the kubelet
+  systemd:
+    name: kubelet
+    state: restarted
+  when: "'kube_workers' in group_names and kubernetes.cloudProviders.integrateCloudProvider == True"
+  tags:
+    - scale
+
+# Generate join tokens
 - name: Kubernetes | Generate Join Token
   shell: kubeadm token create --print-join-command
   register: join_tokens
@@ -6,8 +28,9 @@
   tags:
     - scale
 
+# Apply join tokens to workers
 - name: Kubernetes | Join Worker Node
-  command: "{{ hostvars[groups['root_cluster'][0]]['join_tokens']['results'][groups['kube_workers'].index(inventory_hostname)]['stdout'] }}"
+  command: "{{ hostvars[groups['root_cluster'][0]]['join_tokens']['results'][groups['kube_workers'].index(inventory_hostname)]['stdout'] }} --node-name {{ ansible_fqdn }}"
   when: "'kube_workers' in group_names"
   tags:
     - scale
