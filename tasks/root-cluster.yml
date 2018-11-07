@@ -52,10 +52,10 @@
       - cluster
 
   - name: Kubernetes | Create Certs Archive
-    format: tar
     archive:
       path: ~/pki
       dest: ~/pki.tar.gz
+      format: tar
     tags:
       - cluster
 

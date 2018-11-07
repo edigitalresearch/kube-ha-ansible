@@ -39,9 +39,8 @@
 # Install Kubernetes Packages
 - name: Kubernetes | Install Kubernetes Packages
   yum:
-    name: "{{ item }}"
+    name: "{{ kubernetes.packages }}"
     state: present
-  with_items: "{{ kubernetes.packages }}"
   tags:
     - core
 
