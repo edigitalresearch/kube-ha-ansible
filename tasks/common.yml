@@ -25,16 +25,28 @@
   tags:
     - core
 
-# Get Docker Script
-- name: Kubernetes | Get Docker Script
-  get_url:
-    url: https://get.docker.com/
-    dest: /tmp/get_docker.sh
-    mode: 0755
+- name: Kubernetes | Add Docker Repos
+  yum_repository:
+    name: Docker
+    description: Docker Repos
+    baseurl:  https://download.docker.com/linux/centos/docker-ce.repo
+    gpgcheck: no
+    repo_gpgcheck: no
+  tags:
+    - core
 
-# Install Docker
-- name: Kubernetes | Install Docker
-  shell: /tmp/get_docker.sh
+# # Get Docker Script
+# - name: Kubernetes | Get Docker Script
+#   get_url:
+#     url: https://get.docker.com/
+#     dest: /tmp/get_docker.sh
+#     mode: 0755
+
+# # Install Docker
+# - name: Kubernetes | Install Docker
+#   shell: /tmp/get_docker.sh
+#   tags:
+#     - core
 
 # Install Kubernetes Packages
 - name: Kubernetes | Install Kubernetes Packages
