@@ -26,12 +26,9 @@
     - core
 
 - name: Kubernetes | Add Docker Repos
-  yum_repository:
-    name: Docker
-    description: Docker Repos
-    baseurl:  https://download.docker.com/linux/centos/7/source/stable
-    gpgcheck: no
-    repo_gpgcheck: no
+  get_url:
+      url: https://download.docker.com/linux/centos/docker-ce.repo
+      dest: /etc/yum.repos.d/docer-ce.repo
   tags:
     - core
 
