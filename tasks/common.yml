@@ -29,7 +29,7 @@
   yum_repository:
     name: Docker
     description: Docker Repos
-    baseurl:  https://download.docker.com/linux/centos/docker-ce.repo
+    baseurl:  https://download.docker.com/linux/centos/7/source/stable
     gpgcheck: no
     repo_gpgcheck: no
   tags:
