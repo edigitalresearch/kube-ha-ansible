@@ -1,4 +1,5 @@
 kubernetes:
+  ethernet_adapter: ansible_eth0
   disableselinux: false
   cloudProviders:
     integrateCloudProvider: false
