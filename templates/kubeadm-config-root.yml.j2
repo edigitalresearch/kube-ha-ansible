@@ -14,18 +14,18 @@ api:
 etcd:
   local:
     extraArgs:
-      listen-client-urls: "https://127.0.0.1:2379,https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2379"
-      advertise-client-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2379"
-      listen-peer-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
-      initial-advertise-peer-urls: "https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
-      initial-cluster: "{{ ansible_fqdn }}=https://{{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}:2380"
+      listen-client-urls: "https://127.0.0.1:2379,https://{{ hostvars[inventory_hostname][kubernetes.ethernet_adapter]['ipv4']['address'] }}:2379"
+      advertise-client-urls: "https://{{ hostvars[inventory_hostname][kubernetes.ethernet_adapter]['ipv4']['address'] }}:2379"
+      listen-peer-urls: "https://{{ hostvars[inventory_hostname][kubernetes.ethernet_adapter]['ipv4']['address'] }}:2380"
+      initial-advertise-peer-urls: "https://{{ hostvars[inventory_hostname][kubernetes.ethernet_adapter]['ipv4']['address'] }}:2380"
+      initial-cluster: "{{ ansible_fqdn }}=https://{{ hostvars[inventory_hostname][kubernetes.ethernet_adapter]['ipv4']['address'] }}:2380"
       name: "{{ ansible_fqdn }}"
     serverCertSANs:
       - {{ ansible_fqdn }}
-      - {{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}
+      - {{ hostvars[inventory_hostname][kubernetes.ethernet_adapter]['ipv4']['address'] }}
     peerCertSANs:
       - {{ ansible_fqdn }}
-      - {{ hostvars[inventory_hostname]['ansible_eth0']['ipv4']['address'] }}
+      - {{ hostvars[inventory_hostname][kubernetes.ethernet_adapter]['ipv4']['address'] }}
 networking:
     podSubnet: "{{ kubernetes.networking.podCidr }}"
 {% if kubernetes.cloudProviders.integrateCloudProvider %}
